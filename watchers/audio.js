@@ -2,7 +2,7 @@
  * @file watchers/audio.js
  * @module watchers/audio
  * @copywrite 2013, "Magalhas" José Magalhães
- * @license MIT <http://opensource.org/licenses/MIT> and GPLv3 <http://www.gnu.org/licenses/gpl.txt>.
+ * @license MIT <http://opensource.org/licenses/MIT>
  */
 "use strict";
 var DropboxWatcher = require("../lib/dropbox-watcher"),
