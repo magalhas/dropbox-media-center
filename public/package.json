@@ -1,0 +1,10 @@
+{
+  "name": "backbone-requirejs-boilerplate",
+  "version": "0.0.1",
+  "dependencies": {
+    "fs-extra": "*",
+    "grunt": "*",
+    "grunt-contrib-requirejs": "*",
+    "grunt-jsdoc": "*"
+  }
+}

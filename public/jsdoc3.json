@@ -1,0 +1,23 @@
+{
+    "opts": {
+        "private": true,
+        "recurse": true,
+        "destination": "./docs"
+    },
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": ".+vendor|.+plugins"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "default": {
+            "outputSourceFiles": true
+        }
+    },
+    "jsVersion": 180
+}
