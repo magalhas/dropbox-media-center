@@ -26,10 +26,17 @@ AudioWatcher.prototype = Object.create(DropboxWatcher.prototype);
  * @todo Documentation.
  */
 AudioWatcher.prototype.afterWatch = function (callback) {
-  TrackModel.remove({timestamp: {$ne: this.timestamp}}, function (error) {
+  var self = this;
+  this.app.log("Removing tracks from the database...");
+  TrackModel.remove({timestamp: {$ne: this.timestamp}}, function (err) {
     callback();
-    if (error) {
+    if (err) {
+      self.app.error("Error: %j", err);
       throw new Error("There was an error removing tracks from the database.");
+    } else {
+      self.app
+        .log("Tracks removed from the database.")
+        .log("Watch on audio tracks finished.");
     }
   });
 };
@@ -38,6 +45,7 @@ AudioWatcher.prototype.afterWatch = function (callback) {
  * @todo Documentation.
  */
 AudioWatcher.prototype.beforeWatch = function (callback) {
+  this.app.log("Starting watch on audio tracks...");
   this.timestamp = Date.now();
   callback();
 };
@@ -46,6 +54,7 @@ AudioWatcher.prototype.beforeWatch = function (callback) {
  * @todo Documentation.
  */
 AudioWatcher.prototype.onMatch = function (entry) {
+  var self = this;
   TrackModel.update(
       {path: entry.path},
       {
@@ -55,8 +64,9 @@ AudioWatcher.prototype.onMatch = function (entry) {
         timestamp: this.timestamp
       },
       {upsert: true},
-      function (error) {
-        if (error) {
+      function (err) {
+        if (err) {
+          self.app.error("Error: %j", err);
           throw new Error("There was an error saving a track to the database.");
         }
       }
