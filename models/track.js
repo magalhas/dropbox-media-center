@@ -20,13 +20,17 @@ TrackSchema = new db.Schema({
     type: String,
     trim: true
   },
-  name: {
-    type: String,
-    trim: true
-  },
   filename: {
     type: String,
     required: true,
+    trim: true
+  },
+  modifiedAt: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
     trim: true
   },
   path: {
@@ -37,7 +41,8 @@ TrackSchema = new db.Schema({
     unique: true
   },
   timestamp: {
-    type: Number,
+    type: Date,
+    default: Date.now(),
     required: true,
     index: true
   }
