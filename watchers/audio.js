@@ -8,13 +8,13 @@
 var DropboxWatcher = require("../lib/dropbox-watcher"),
   TrackModel = require("../models/track");
 /**
- * @class
+ * @class module:watchers/audio~AudioWatcher
  * @extends DropboxWatcher
  * @param {App} app
  * @todo Documentation.
  */
 function AudioWatcher(app) {
-  DropboxWatcher.call(this, app.dropbox, {
+  DropboxWatcher.call(this, app, {
     interval: app.options.watchers.interval,
     pattern: /^.+\.mp3$/,
     folders: app.options.watchers.folders.audio
@@ -50,6 +50,7 @@ AudioWatcher.prototype.onMatch = function (entry) {
       {path: entry.path},
       {
         filename: entry.name,
+        modifiedAt: entry.modifiedAt,
         path: entry.path,
         timestamp: this.timestamp
       },
