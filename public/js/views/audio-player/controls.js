@@ -17,22 +17,48 @@ define(function (require) {
   {
     /** @ignore */
     initialize: function () {
-      this.listenTo(App, "track:play", this.play);
+      this.listenTo(App, "track:play", this.playTrack);
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
+     * Applies jQuery.jPlayer to the #jplayer element
+     * @returns {this}
+     */
+    applyJPlayer: function () {
+      this.player = new CirclePlayer("#jplayer", {}, {
+        cssSelectorAncestor: "#circleplayer",
+        supplied: "mp3, m4a, oga",
+        wmode: "window",
+        keyEnabled: true
+      });
+      this.$("#jplayer").on($.jPlayer.event.ended, _.bind(this.nextTrack, this));
+      return this;
+    },
+    /**
+     * @listens $.jPlayer.event.ended
+     * @fires module:app~App#track:next
+     */
+    nextTrack: function (event) {
+      /**
+       * @event module:app~App#track:next
+       * @param {module:models/track~TrackModel}
+       */
+      App.trigger("track:next", this.track);
+    },
+    /**
+     * @listens module:app~App#track:play
+     * @fires module:app~App#track:playing
      * @todo Documentation.
      */
-    play: function (track) {
-      this.$("audio")
-        .html($("<source>", {
-          "data-id": track.get("id"),
-          src: track.url(),
-          type: "audio/mpeg"
-        }))
-        .get(0)
-        .play();
-      return this;
+    playTrack: function (track) {
+      this.track = track;
+      this.player.setMedia({mp3: track.url()});
+      this.player.play();
+      /**
+       * @event module:app~App#track:playing
+       * @param {module:models/track~TrackModel}
+       */
+      App.trigger("track:playing", track);
     },
     /**
      * Renders the view.
@@ -40,7 +66,7 @@ define(function (require) {
      */
     render: function () {
       this.$el.html(_.template(html));
-      return this;
+      return this.applyJPlayer();
     }
   });
 });

@@ -27,7 +27,8 @@ define(function (require) {
      */
     render: function () {
       this.$el.html(_.template(html));
-      return this.renderAudioPlayer();
+      this.views.audioPlayer.setElement(this.$("#audio-player"));
+      return this;
     },
     /**
      * Renders the {@link AudioPlayerView} subview.
