@@ -1,3 +1,7 @@
+/**
+ * @copywrite 2013, "Magalhas" José Magalhães
+ * @license MIT <http://opensource.org/licenses/MIT>
+ */
 requirejs.config({
   paths: {
     "i18n": "libs/vendor/require-i18n-2.0.2",

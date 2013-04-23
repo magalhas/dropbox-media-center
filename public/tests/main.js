@@ -1,3 +1,7 @@
+/**
+ * @copywrite 2013, "Magalhas" José Magalhães
+ * @license MIT <http://opensource.org/licenses/MIT>
+ */
 requirejs.config({
     baseUrl: "js",
 	paths: {

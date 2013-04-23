@@ -1,0 +1,25 @@
+<% var i, length, track; %>
+<table>
+  <thead>
+    <tr>
+      <th><%=App.i18n("#")%></th>
+      <th><%=App.i18n("Artist")%></th>
+      <th><%=App.i18n("Track")%></th>
+      <th><%=App.i18n("Duration")%></th>
+      <th><%=App.i18n("Genre")%></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (i = 0, length = collection.length;
+        (i < length) && (track = collection.at(i));
+        i += 1) { %>
+    <tr class="track" data-id="<%=track.get("id")%>">
+      <td><%=track.get("number")%></td>
+      <td><%=track.get("artist")%></td>
+      <td><%=track.get("title")%></td>
+      <td><%=track.get("duration")%></td>
+      <td><%=track.get("genre")%></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

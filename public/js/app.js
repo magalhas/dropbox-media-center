@@ -1,5 +1,7 @@
 /**
  * @module app
+ * @copywrite 2013, "Magalhas" José Magalhães
+ * @license MIT <http://opensource.org/licenses/MIT>
  */
 var App = {};
 define(["require", "i18n!nls/lang", "collection", "config", "model", "router", "view"],
