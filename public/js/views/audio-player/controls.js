@@ -17,16 +17,16 @@ define(function (require) {
   {
     /** @ignore */
     initialize: function () {
+      this.listenTo(App, "track:play", this.play);
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
      * @todo Documentation.
      */
-    play: function (trackId) {
-      var track = this.collection.get(trackId);
+    play: function (track) {
       this.$("audio")
         .html($("<source>", {
-          "data-id": trackId,
+          "data-id": track.get("id"),
           src: track.url(),
           type: "audio/mpeg"
         }))

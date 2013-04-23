@@ -27,8 +27,9 @@ define(function (require) {
     playTrack: function (event) {
       var
         $target = $(event.target).closest("tr"),
-        trackId = $target.data("id");
-      this.trigger("track:play", trackId);
+        trackId = $target.data("id"),      
+        track = this.collection.get(trackId);
+      App.trigger("track:play", track);
       return this;
     },
     /**

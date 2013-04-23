@@ -20,7 +20,6 @@ define(function (require) {
     views: {},
     /** @ignore */
     initialize: function () {
-      var self = this;
       this.collection = new TracksCollection();
       // Subviews
       this.views.controls = new AudioPlayer_ControlsView({
@@ -29,12 +28,7 @@ define(function (require) {
       this.views.playlist = new AudioPlayer_PlaylistView({
         collection: this.collection
       });
-      // Events binding
-      this
-        .listenTo(this.collection, "sync", this.render)
-        .listenTo(this.views.playlist, "track:play", function (trackId) {
-          self.views.controls.play(trackId)
-        });
+      this.listenTo(this.collection, "sync", this.render);
       // Fetch the collection
       this.collection.fetch();
       return App.View.prototype.initialize.apply(this, arguments);

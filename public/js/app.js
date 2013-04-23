@@ -8,6 +8,7 @@ define(["require", "i18n!nls/lang", "collection", "config", "model", "router", "
     function (require, i18n, Collection, Config, Model, Router, View) {
   "use strict";
   /** @namespace module:app~App */
+  _.extend(App, Backbone.Events);
   App.Collection = Collection;
   App.Config = Config;
   App.Model = Model;
