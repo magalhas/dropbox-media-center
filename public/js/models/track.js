@@ -18,8 +18,8 @@ define(function (require) {
       duration: "",
       filename: "",
       genre: "",
-      number: "",
       title: "",
+      trackNumber: "",
       year: ""
     },
     parse: function (response) {

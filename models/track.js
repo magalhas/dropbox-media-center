@@ -1,13 +1,17 @@
 /**
- * @file models/track.js
  * @module models/track
  * @copywrite 2013, "Magalhas" José Magalhães
  * @license MIT <http://opensource.org/licenses/MIT>
  */
-var db = require("mongoose"),
+var
+  db = require("mongoose"),
   TrackModel,
   TrackSchema;
 TrackSchema = new db.Schema({
+  album: {
+    type: String,
+    trim: true
+  },
   artist: {
     type: String,
     trim: true
@@ -29,10 +33,6 @@ TrackSchema = new db.Schema({
     type: String,
     required: true
   },
-  name: {
-    type: String,
-    trim: true
-  },
   path: {
     type: String,
     required: true,
@@ -45,6 +45,17 @@ TrackSchema = new db.Schema({
     default: Date.now(),
     required: true,
     index: true
+  },
+  title: {
+    type: String,
+    trim: true
+  },
+  trackNumber: {
+    type: Number,
+    min: 0
+  },
+  year: {
+    type: Number
   }
 });
 TrackModel = db.model("Track", TrackSchema);
