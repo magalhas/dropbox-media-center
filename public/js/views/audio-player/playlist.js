@@ -14,26 +14,21 @@ define(function (require) {
   /** @lends module:views/audio-player/playlist~AudioPlayer_PlaylistView.prototype */
   {
     events: {
-      "click .track": "playTrack"
+      "dblclick .track": "playTrack"
     },
     /** @ignore */
     initialize: function () {
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
-     * Applies DataTables to our table tag.
-     * @returns {this}
-     */
-    applyDataTable: function () {
-      return this;
-    },
-    /**
      * @event
      * @fires track:play
      */
     playTrack: function (event) {
-      var $target = $(event.target).closest("tr");
-      this.trigger("track:play", $target.attr("data-id"));
+      var
+        $target = $(event.target).closest("tr"),
+        trackId = $target.data("id");
+      this.trigger("track:play", trackId);
       return this;
     },
     /**

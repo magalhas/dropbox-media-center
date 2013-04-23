@@ -22,6 +22,15 @@ define(function (require) {
       trackNumber: "",
       year: ""
     },
+    /**
+     * @todo Documentation.
+     */
+    audioUrl: function () {
+      return this.url() + "/audio";
+    },
+    /**
+     * @override
+     */
     parse: function (response) {
       response.id = response._id;
       !response.title && (response.title = response.filename);

@@ -20,17 +20,18 @@ define(function (require) {
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
-     * Applies MediaElement.js to our audio tag.
-     * @returns {this}
-     */
-    applyAudioPlayer: function () {
-      return this;
-    },
-    /**
-     * 
+     * @todo Documentation.
      */
     play: function (trackId) {
-      window.open(this.collection.get(trackId).url());
+      var track = this.collection.get(trackId);
+      this.$("audio")
+        .html($("<source>", {
+          "data-id": trackId,
+          src: track.url(),
+          type: "audio/mpeg"
+        }))
+        .get(0)
+        .play();
       return this;
     },
     /**
