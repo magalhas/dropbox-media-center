@@ -17,6 +17,7 @@ function TracksRouter(app) {
   this.app = app;
   app.server.get("/api/tracks", _.bind(this.routeGetTracks, this));
   app.server.get("/api/tracks/:id", _.bind(this.routeGetTrackById, this));
+  app.server.get("/api/tracks/:id/audio", _.bind(this.routeGetTrackAudioById, this));
 }
 /**
  * @todo Documentation.
@@ -87,6 +88,12 @@ TracksRouter.prototype.routeGetTrackById = function (req, res) {
       }
     }
   });
+};
+/**
+ * @route
+ * @todo Documentation.
+ */
+TracksRouter.prototype.routeGetTrackAudioById = function (req, res) {
 };
 /**
  * @route
