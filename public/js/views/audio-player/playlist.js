@@ -64,6 +64,29 @@ define(function (require) {
       }
     },
     /**
+     * @listens module:app~App#track:previous
+     * @fires module:app~App#track:play
+     */
+    playPreviousTrack: function (track) {
+      var
+        $previous,
+        previousTrack;
+      if (!this.options.shuffle) {
+        $previous = this.$('[data-id="' + track.get("id") + '"]').prev();
+        if (!$previous.length) {
+          $previous = this.$("[data-id]").last();
+        }
+        previousTrack = this.collection.get($previous.data("id"));
+      }
+      if (previousTrack !== track || this.options.repeat) {
+        /**
+         * @event module:app~App#track:play
+         * @param {module:models/track~TrackModel}
+         */
+        App.trigger("track:play", previousTrack);
+      }
+    },
+    /**
      * @fires module:app~App#track:play
      */
     playTrack: function (event) {
