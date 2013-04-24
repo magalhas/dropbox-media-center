@@ -1,0 +1,35 @@
+{
+  "name": "dropbox-media-center",
+  "description": "Dropbox Media Center (powered by Node.js, MongoDB and HTML5).",
+  "version": "0.1.0",
+  "author": {
+    "name": "José Magalhães",
+    "email": "magalhas@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magalhas/dropbox-media-center.git"
+  },
+  "dependencies": {
+    "dropbox": "*",
+    "express": "*",
+    "fs-extra": "*",
+    "lodash": "*",
+    "mongoose": "*",
+    "musicmetadata": "*"
+  },
+  "keywords": [
+    "dropbox",
+    "html5",
+    "m4a",
+    "media",
+    "mediacenter",
+    "mongodb",
+    "mp3",
+    "oga",
+    "ogg"
+  ],
+  "engines": {
+    "node": ">=0.8"
+  }
+}
