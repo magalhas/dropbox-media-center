@@ -47,18 +47,21 @@ define(function (require) {
     playNextTrack: function (track) {
       var
         $next,
-        track;
+        nextTrack;
       if (!this.options.shuffle) {
         $next = this.$('[data-id="' + track.get("id") + '"]').next();
-        if ($next.length) {
-          track = this.collection.get($next.data("id"));
+        if (!$next.length) {
+          $next = this.$("[data-id]").first();
         }
+        nextTrack = this.collection.get($next.data("id"));
       }
-      /**
-       * @event module:app~App#track:play
-       * @param {module:models/track~TrackModel}
-       */
-      App.trigger("track:play", track);
+      if (nextTrack !== track || this.options.repeat) {
+        /**
+         * @event module:app~App#track:play
+         * @param {module:models/track~TrackModel}
+         */
+        App.trigger("track:play", nextTrack);
+      }
     },
     /**
      * @fires module:app~App#track:play
