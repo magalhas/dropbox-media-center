@@ -18,6 +18,7 @@
     "mongoose": "*",
     "musicmetadata": "*",
     "passport": "*",
+    "passport-http": "*",
     "q": "*"
   },
   "keywords": [
