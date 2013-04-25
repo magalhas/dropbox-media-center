@@ -6,6 +6,7 @@
 "use strict";
 var
   _ = require("lodash"),
+  express = require("express"),
   fs = require("fs-extra"),
   MusicMetadata = require("musicmetadata"),
   TrackModel = require("../models/track");
@@ -15,7 +16,11 @@ var
  */
 function TracksRouter(app) {
   this.app = app;
-  app.server.get("/api/tracks", _.bind(this.routeGetTracks, this));
+  app.server.get(
+    "/api/tracks",
+    express.compress(),
+    _.bind(this.routeGetTracks, this)
+  );
   app.server.get("/api/tracks/:id", _.bind(this.routeGetTrackById, this));
   app.server.get("/api/tracks/:id/audio", _.bind(this.routeGetTrackAudioById, this));
 }
