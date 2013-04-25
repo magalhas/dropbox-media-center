@@ -121,6 +121,7 @@ TracksRouter.prototype.storeMetadata = function (path, track, options) {
   musicMetadata.on("metadata", function (metadata) {
     id3.artist = metadata.artist;
     id3.album = metadata.album;
+    id3.genre = metadata.genre;
     id3.trackNumber = metadata.track.no;
     id3.title = metadata.title;
     id3.year = metadata.year;

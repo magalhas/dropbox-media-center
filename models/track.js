@@ -20,6 +20,10 @@ TrackSchema = new db.Schema({
     type: Number,
     min: 0
   },
+  genre: {
+    type: String,
+    trim: true
+  },
   location: {
     type: String,
     trim: true
