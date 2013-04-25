@@ -5,7 +5,8 @@
       <th><%=App.i18n("#")%></th>
       <th><%=App.i18n("Artist")%></th>
       <th><%=App.i18n("Track")%></th>
-      <th><%=App.i18n("Duration")%></th>
+      <th><%=App.i18n("Album")%></th>
+      <th><%=App.i18n("Year")%></th>
       <th><%=App.i18n("Genre")%></th>
     </tr>
   </thead>
@@ -17,7 +18,8 @@
       <td><%=track.get("trackNumber")%></td>
       <td><%=track.get("artist")%></td>
       <td><%=track.get("title")%></td>
-      <td><%=track.get("duration")%></td>
+      <td><%=track.get("album")%></td>
+      <td><%=track.get("year")%></td>
       <td><%=track.get("genre")%></td>
     </tr>
     <% } %>

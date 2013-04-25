@@ -31,6 +31,7 @@ define(function (require) {
      */
     applyDataTables: function () {
       this.$("table").dataTable({
+        "aaSorting": [[1, "asc"], [4, "asc"], [3, "asc"], [0, "asc"]],
         "bPaginate": false,
         "bLengthChange": false,
         "bFilter": true,
