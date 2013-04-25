@@ -9,6 +9,7 @@ var
   express = require("express"),
   fs = require("fs-extra"),
   MusicMetadata = require("musicmetadata"),
+  passport = require("passport"),
   TrackModel = require("../models/track");
 /**
  * @class module:routers/tracks~TracksRouter
@@ -21,8 +22,14 @@ function TracksRouter(app) {
     express.compress(),
     _.bind(this.routeGetTracks, this)
   );
-  app.server.get("/api/tracks/:id", _.bind(this.routeGetTrackById, this));
-  app.server.get("/api/tracks/:id/audio", _.bind(this.routeGetTrackAudioById, this));
+  app.server.get(
+    "/api/tracks/:id",
+    _.bind(this.routeGetTrackById, this)
+  );
+  app.server.get(
+    "/api/tracks/:id/audio",
+    _.bind(this.routeGetTrackAudioById, this)
+  );
 }
 /**
  * @todo Documentation.
