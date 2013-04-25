@@ -6,7 +6,7 @@ requirejs.config({
   paths: {
     "i18n": "libs/vendor/require-i18n-2.0.2",
     "backbone": "libs/vendor/backbone-1.0.0.min",
-    "jquery": "libs/vendor/jquery-1.9.1.min",
+    "jquery": "libs/vendor/jquery-2.0.0.min",
     "jquery.dataTables": "libs/vendor/jquery.dataTables-1.9.4/jquery.dataTables.min",
     "jquery.grab": "libs/vendor/jquery.jplayer-2.3.0/jquery.grab",
     "jquery.jplayer": "libs/vendor/jquery.jplayer-2.3.0/jquery.jplayer.min",
