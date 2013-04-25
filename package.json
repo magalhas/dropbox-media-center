@@ -17,6 +17,7 @@
     "lodash": "*",
     "mongoose": "*",
     "musicmetadata": "*",
+    "passport": "*",
     "q": "*"
   },
   "keywords": [
