@@ -16,7 +16,8 @@
     "fs-extra": "*",
     "lodash": "*",
     "mongoose": "*",
-    "musicmetadata": "*"
+    "musicmetadata": "*",
+    "q": "*"
   },
   "keywords": [
     "dropbox",
