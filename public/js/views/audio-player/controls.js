@@ -15,9 +15,14 @@ define(function (require) {
   return App.View.extend(
   /** @lends module:views/audio-player/playlist~AudioPlayer_ControlsView.prototype */
   {
+    events: {
+      "click .trigger.repeat": "toggleRepeat",
+      "click .trigger.shuffle": "toggleShuffle"
+    },
     /** @ignore */
     initialize: function () {
-      this.listenTo(App, "track:play", this.playTrack);
+      this
+        .listenTo(App, "track:play", this.playTrack);
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
@@ -74,6 +79,28 @@ define(function (require) {
     render: function () {
       this.$el.html(_.template(html));
       return this.applyJPlayer();
+    },
+    /**
+     * @listens dom.event#click .trigger-repeat
+     * @fires module:app~App#media:repeat
+     */
+    toggleRepeat: function (event) {
+      /**
+       * @event module:app~App#media:repeat
+       */
+      App.trigger("media:repeat");
+      $(event.target).toggleClass("active");
+    },
+    /**
+     * @listens dom.event#click .trigger-shuffle
+     * @fires module:app~App#media:shuffle
+     */
+    toggleShuffle: function (event) {
+      /**
+       * @event module:app~App#media:shuffle
+       */
+      App.trigger("media:shuffle");
+      $(event.target).toggleClass("active");
     }
   });
 });

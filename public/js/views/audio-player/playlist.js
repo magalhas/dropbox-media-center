@@ -15,6 +15,7 @@ define(function (require) {
   return App.View.extend(
   /** @lends module:views/audio-player/playlist~AudioPlayer_PlaylistView.prototype */
   {
+    shuffledTracks: [],
     trackHtml: trackHtml,
     events: {
       "dblclick .track": "playTrack"
@@ -29,7 +30,8 @@ define(function (require) {
         .listenTo(this.collection, "sync", this.render)
         .listenTo(this.collection, "request", this.renderLoading)
         .listenTo(App, "track:next", this.playNextTrack)
-        .listenTo(App, "track:playing", this.renderTrack);
+        .listenTo(App, "track:playing", this.renderTrack)
+        .listenTo(App, "media:shuffle", this.toggleShuffle);
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
@@ -54,15 +56,29 @@ define(function (require) {
      */
     playNextTrack: function (track) {
       var
+        self = this,
         $next,
-        nextTrack;
+        $tracks,
+        nextTrack,
+        nextTrackId;
       if (!this.options.shuffle) {
         $next = this.$('[data-id="' + track.get("id") + '"]').next();
         if (!$next.length) {
           $next = this.$("[data-id]").first();
         }
-        nextTrack = this.collection.get($next.data("id"));
+        nextTrackId = $next.data("id");
+      } else {
+        $tracks = this.$("[data-id]").filter(function () {
+          if (self.shuffledTracks.indexOf($(this).data("id")) !== -1) {
+            return false;
+          }
+          return true;
+        });
+        $next = $tracks.eq(Math.floor(Math.random() * ($tracks.length + 1)));
+        nextTrackId = $next.data("id");
+        this.shuffledTracks.push(nextTrackId);
       }
+      nextTrack = this.collection.get(nextTrackId);
       if (nextTrack !== track || this.options.repeat) {
         /**
          * @event module:app~App#track:play
@@ -144,6 +160,19 @@ define(function (require) {
           self.playlist.fnUpdate(data, $track[0], undefined, false);
         }
       });
+    },
+    /**
+     * @listens module:app~App#media:shuffle
+     * @fires module:app~App#media:shuffle:on
+     * @fires module:app~App#media:shuffle:off
+     */
+    toggleShuffle: function () {
+      this.options.shuffle = !this.options.shuffle;
+      if (this.options.shuffle) {
+        App.trigger("media:shuffle:on");
+      } else {
+        App.trigger("media:shuffle:off");
+      }
     }
   });
 });
