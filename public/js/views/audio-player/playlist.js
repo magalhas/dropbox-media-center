@@ -94,13 +94,20 @@ define(function (require) {
     playPreviousTrack: function (track) {
       var
         $previous,
-        previousTrack;
+        previousTrack,
+        previousTrackId;
       if (!this.options.shuffle) {
         $previous = this.$('[data-id="' + track.get("id") + '"]').prev();
         if (!$previous.length) {
           $previous = this.$("[data-id]").last();
         }
         previousTrack = this.collection.get($previous.data("id"));
+      } else {
+        if (this.shuffledTracks.length > 1) {
+          previousTrackId = this.shuffledTracks[this.shuffledTracks.length - 2];
+        } else {
+          return this.playNextTrack(track);
+        }
       }
       if (previousTrack !== track || this.options.repeat) {
         /**
@@ -165,10 +172,13 @@ define(function (require) {
      * @listens module:app~App#media:shuffle
      * @fires module:app~App#media:shuffle:on
      * @fires module:app~App#media:shuffle:off
+     * @param {module:models/track~TrackModel} Current playing track.
      */
-    toggleShuffle: function () {
+    toggleShuffle: function (track) {
+      this.shuffledTracks = [];
       this.options.shuffle = !this.options.shuffle;
       if (this.options.shuffle) {
+        track && this.shuffledTracks.push(track.get("id"));
         App.trigger("media:shuffle:on");
       } else {
         App.trigger("media:shuffle:off");

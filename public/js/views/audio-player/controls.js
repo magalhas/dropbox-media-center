@@ -21,8 +21,7 @@ define(function (require) {
     },
     /** @ignore */
     initialize: function () {
-      this
-        .listenTo(App, "track:play", this.playTrack);
+      this.listenTo(App, "track:play", this.playTrack);
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
@@ -68,7 +67,7 @@ define(function (require) {
     playingTrack: function () {
       /**
        * @event module:app~App#track:playing
-       * @param {module:models/track~TrackModel}
+       * @param {module:models/track~TrackModel} Current track playing.
        */
       App.trigger("track:playing", this.track);
     },
@@ -87,8 +86,9 @@ define(function (require) {
     toggleRepeat: function (event) {
       /**
        * @event module:app~App#media:repeat
+       * @param {module:models/track~TrackModel} Current track playing.
        */
-      App.trigger("media:repeat");
+      App.trigger("media:repeat", this.track);
       $(event.target).toggleClass("active");
     },
     /**
@@ -98,8 +98,9 @@ define(function (require) {
     toggleShuffle: function (event) {
       /**
        * @event module:app~App#media:shuffle
+       * @param {module:models/track~TrackModel} Current track playing.
        */
-      App.trigger("media:shuffle");
+      App.trigger("media:shuffle", this.track);
       $(event.target).toggleClass("active");
     }
   });
