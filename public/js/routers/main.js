@@ -19,9 +19,8 @@ define(function (require) {
     views: {},
     /** @ignore */
     initialize: function () {
-      this.views.body = new View_Body({
-        el: $("body")
-      }).render();
+      this.views.body = new View_Body({el: $("body")}).render();
+      this.views.body.views.audioPlayer.collection.fetch();
       return App.Router.prototype.initialize.apply(this, arguments);
     },
     /**

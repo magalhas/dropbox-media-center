@@ -27,17 +27,7 @@ define(function (require) {
      */
     render: function () {
       this.$el.html(_.template(html));
-      this.views.audioPlayer.setElement(this.$("#audio-player"));
-      return this;
-    },
-    /**
-     * Renders the {@link AudioPlayerView} subview.
-     * @returns {this}
-     */
-    renderAudioPlayer: function () {
-      this.views.audioPlayer
-        .setElement(this.$("#audio-player"))
-        .render();
+      this.views.audioPlayer.setElement(this.$("#audio-player")).render();
       return this;
     }
   });

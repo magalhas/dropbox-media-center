@@ -11,5 +11,18 @@ define(function (require) {
   return Backbone.View.extend(
   /** @lends module:app~App.View.prototype */
   {
+    /**
+     * Renders loading animation.
+     * @listens external:Backbone.Collection#request
+     * @listens external:Backbone.Model#request
+     * @returns {this}
+     * @todo Documentation.
+     */
+    renderLoading: function (model, xhr, options) {
+      if (!options.bypass) {
+        this.$el.html("Loading...");
+      }
+      return this;
+    }
   });
 });

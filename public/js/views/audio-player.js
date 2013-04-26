@@ -28,9 +28,6 @@ define(function (require) {
       this.views.playlist = new AudioPlayer_PlaylistView({
         collection: this.collection
       });
-      this.listenTo(this.collection, "sync", this.render);
-      // Fetch the collection
-      this.collection.fetch();
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
@@ -39,28 +36,8 @@ define(function (require) {
      */
     render: function () {
       this.$el.html(_.template(html));
-      return this
-        .renderControls()
-        .renderPlaylist();
-    },
-    /**
-     * Renders the {@link AudioPlayer_ControlsView} subview.
-     * @returns {this}
-     */
-    renderControls: function () {
-      this.views.controls
-        .setElement(this.$(".controls"))
-        .render();
-      return this;
-    },
-    /**
-     * Renders the {@link AudioPlayer_PlaylistView} subview.
-     * @returns {this}
-     */
-    renderPlaylist: function () {
-      this.views.playlist
-        .setElement(this.$(".playlist"))
-        .render();
+      this.views.playlist.setElement(this.$(".playlist"));
+      this.views.controls.setElement(this.$(".controls")).render();
       return this;
     }
   });

@@ -21,7 +21,7 @@ define(function (require) {
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
-     * Applies jQuery.jPlayer to the #jplayer element
+     * Applies $.jPlayer to the #jplayer element.
      * @returns {this}
      */
     applyJPlayer: function () {
@@ -31,7 +31,9 @@ define(function (require) {
         wmode: "window",
         keyEnabled: true
       });
-      this.$("#jplayer").on($.jPlayer.event.ended, _.bind(this.nextTrack, this));
+      this.$("#jplayer")
+        .on($.jPlayer.event.ended, _.bind(this.nextTrack, this))
+        .on($.jPlayer.event.loadedmetadata, _.bind(this.playingTrack, this));
       return this;
     },
     /**
@@ -47,18 +49,23 @@ define(function (require) {
     },
     /**
      * @listens module:app~App#track:play
-     * @fires module:app~App#track:playing
      * @todo Documentation.
      */
     playTrack: function (track) {
       this.track = track;
-      this.player.setMedia({mp3: track.url()});
+      this.player.setMedia({mp3: track.audioUrl()});
       this.player.play();
+    },
+    /**
+     * @listens $.jPlayer.event.loadedmetadata
+     * @fires module:app~App#track:playing
+     */
+    playingTrack: function () {
       /**
        * @event module:app~App#track:playing
        * @param {module:models/track~TrackModel}
        */
-      App.trigger("track:playing", track);
+      App.trigger("track:playing", this.track);
     },
     /**
      * Renders the view.

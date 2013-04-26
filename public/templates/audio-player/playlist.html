@@ -14,14 +14,7 @@
     <% for (i = 0, length = collection.length;
         (i < length) && (track = collection.at(i));
         i += 1) { %>
-    <tr class="track" data-id="<%=track.get("id")%>">
-      <td><%=track.get("trackNumber")%></td>
-      <td><%=track.get("artist")%></td>
-      <td><%=track.get("title")%></td>
-      <td><%=track.get("album")%></td>
-      <td><%=track.get("year")%></td>
-      <td><%=track.get("genre")%></td>
-    </tr>
+    <%=_.template(trackHtml, track)%>
     <% } %>
   </tbody>
 </table>
