@@ -29,6 +29,7 @@ define(function (require) {
       this
         .listenTo(this.collection, "sync", this.render)
         .listenTo(this.collection, "request", this.renderLoading)
+        .listenTo(App, "track:previous", this.playPreviousTrack)
         .listenTo(App, "track:next", this.playNextTrack)
         .listenTo(App, "track:playing", this.renderTrack)
         .listenTo(App, "media:shuffle", this.toggleShuffle);

@@ -16,6 +16,8 @@ define(function (require) {
   /** @lends module:views/audio-player/playlist~AudioPlayer_ControlsView.prototype */
   {
     events: {
+      "click .trigger.previous-track": "previousTrack",
+      "click .trigger.next-track": "nextTrack",
       "click .trigger.repeat": "toggleRepeat",
       "click .trigger.shuffle": "toggleShuffle"
     },
@@ -42,12 +44,13 @@ define(function (require) {
     },
     /**
      * @listens $.jPlayer.event.ended
+     * @listens dom.event#click .trigger.next-track
      * @fires module:app~App#track:next
      */
     nextTrack: function (event) {
       /**
        * @event module:app~App#track:next
-       * @param {module:models/track~TrackModel}
+       * @param {module:models/track~TrackModel} Current track playing.
        */
       App.trigger("track:next", this.track);
     },
@@ -72,6 +75,17 @@ define(function (require) {
       App.trigger("track:playing", this.track);
     },
     /**
+     * @listens dom.event#click .trigger.next-track
+     * @fires module:app~App#track:previous
+     */
+    previousTrack: function (event) {
+      /**
+       * @event module:app~App#track:previous
+       * @param {module:models/track~TrackModel} Current track playing.
+       */
+      App.trigger("track:previous", this.track);
+    },
+    /**
      * Renders the view.
      * @returns {this}
      */
@@ -80,7 +94,7 @@ define(function (require) {
       return this.applyJPlayer();
     },
     /**
-     * @listens dom.event#click .trigger-repeat
+     * @listens dom.event#click .trigger.repeat
      * @fires module:app~App#media:repeat
      */
     toggleRepeat: function (event) {
@@ -92,7 +106,7 @@ define(function (require) {
       $(event.target).toggleClass("active");
     },
     /**
-     * @listens dom.event#click .trigger-shuffle
+     * @listens dom.event#click .trigger.shuffle
      * @fires module:app~App#media:shuffle
      */
     toggleShuffle: function (event) {
