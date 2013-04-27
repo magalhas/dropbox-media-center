@@ -15,7 +15,9 @@ define(function (require) {
   return App.View.extend(
   /** @lends module:views/audio-player/playlist~AudioPlayer_PlaylistView.prototype */
   {
-    shuffledTracks: [],
+    playedTracks: [],
+    previousTracks: [],
+    shuffledTracksIds: [],
     trackHtml: trackHtml,
     events: {
       "dblclick .track": "playTrack"
@@ -31,6 +33,7 @@ define(function (require) {
         .listenTo(this.collection, "request", this.renderLoading)
         .listenTo(App, "track:previous", this.playPreviousTrack)
         .listenTo(App, "track:next", this.playNextTrack)
+        .listenTo(App, "track:play", this.logTrack)
         .listenTo(App, "track:playing", this.renderTrack)
         .listenTo(App, "media:shuffle", this.toggleShuffle);
       return App.View.prototype.initialize.apply(this, arguments);
@@ -52,6 +55,12 @@ define(function (require) {
       return this;
     },
     /**
+     * @listens module:app~App#track:playing
+     */
+    logTrack: function (track) {
+      this.playedTracks.push(track);
+    },
+    /**
      * @listens module:app~App#track:next
      * @fires module:app~App#track:play
      */
@@ -70,21 +79,22 @@ define(function (require) {
         nextTrackId = $next.data("id");
       } else {
         $tracks = this.$("[data-id]").filter(function () {
-          if (self.shuffledTracks.indexOf($(this).data("id")) !== -1) {
+          if (self.shuffledTracksIds.indexOf($(this).data("id")) !== -1) {
             return false;
           }
           return true;
         });
         $next = $tracks.eq(Math.floor(Math.random() * ($tracks.length + 1)));
         nextTrackId = $next.data("id");
-        this.shuffledTracks.push(nextTrackId);
+        this.shuffledTracksIds.push(nextTrackId);
       }
       nextTrack = this.collection.get(nextTrackId);
-      if (nextTrack !== track || this.options.repeat) {
+      if (nextTrack && nextTrack !== track || this.options.repeat) {
         /**
          * @event module:app~App#track:play
          * @param {module:models/track~TrackModel}
          */
+        this.previousTracks = _.clone(this.playedTracks);
         App.trigger("track:play", nextTrack);
       }
     },
@@ -97,20 +107,17 @@ define(function (require) {
         $previous,
         previousTrack,
         previousTrackId;
-      if (!this.options.shuffle) {
+      if (!this.previousTracks.length) {
         $previous = this.$('[data-id="' + track.get("id") + '"]').prev();
         if (!$previous.length) {
           $previous = this.$("[data-id]").last();
         }
-        previousTrack = this.collection.get($previous.data("id"));
+        previousTrackId = $previous.data("id");
+        previousTrack = this.collection.get(previousTrackId);
       } else {
-        if (this.shuffledTracks.length > 1) {
-          previousTrackId = this.shuffledTracks[this.shuffledTracks.length - 2];
-        } else {
-          return this.playNextTrack(track);
-        }
+        previousTrack = this.previousTracks.pop();
       }
-      if (previousTrack !== track || this.options.repeat) {
+      if (previousTrack && (previousTrack !== track || this.options.repeat)) {
         /**
          * @event module:app~App#track:play
          * @param {module:models/track~TrackModel}
@@ -131,6 +138,7 @@ define(function (require) {
        * @event module:app~App#track:play
        * @param {module:models/track~TrackModel}
        */
+      this.previousTracks = _.clone(this.playedTracks);
       App.trigger("track:play", track);
     },
     /**
@@ -164,8 +172,11 @@ define(function (require) {
                 data.push($(this).text());
                 $(this).attr("class", $trackColumns.eq(index).attr("class"));
               });
+          // FIXME When updating an already updated row an exception was being thrown
+          try {
+            self.playlist.fnUpdate(data, $track[0], undefined, false);
+          } catch (ex) {}
           $track.replaceWith($updatedTrack);
-          self.playlist.fnUpdate(data, $track[0], undefined, false);
         }
       });
     },
@@ -176,12 +187,18 @@ define(function (require) {
      * @param {module:models/track~TrackModel} Current playing track.
      */
     toggleShuffle: function (track) {
-      this.shuffledTracks = [];
+      this.shuffledTracksIds = [];
       this.options.shuffle = !this.options.shuffle;
       if (this.options.shuffle) {
-        track && this.shuffledTracks.push(track.get("id"));
+        track && this.shuffledTracksIds.push(track.get("id"));
+        /**
+         * @event module:app~App#media:shuffle:on
+         */
         App.trigger("media:shuffle:on");
       } else {
+        /**
+         * @event module:app~App#media:shuffle:off
+         */
         App.trigger("media:shuffle:off");
       }
     }
