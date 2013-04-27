@@ -24,6 +24,7 @@ function TracksRouter(app) {
   );
   app.server.get(
     "/api/tracks/:id",
+    express.compress(),
     _.bind(this.routeGetTrackById, this)
   );
   app.server.get(
