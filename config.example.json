@@ -1,0 +1,17 @@
+{
+  "dropbox": {
+    "key": "YWNUDDYDY1A=|WFdPOBBYgcDZLRLFDtcuOUY/4Hkj0QGAdNtmYQdv0Q=="
+  },
+  "mongodbURI": "mongodb://username:password@url:port/dbName",
+  "port": "8080",
+  "host": "",
+  "url": "http://localhost:8080",
+  "watchers": {
+    "interval": 500000,
+    "folders": {
+      "audio": [
+        "Audio"
+      ]
+    }
+  }
+}
