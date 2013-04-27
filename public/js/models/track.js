@@ -35,6 +35,13 @@ define(function (require) {
       response.id = response._id;
       !response.title && (response.title = response.filename);
       return response;
+    },
+    /**
+     * @returns {string}
+     * @todo Documentation.
+     */
+    toString: function () {
+      return this.get("artist") + " - " + this.get("title");
     }
   });
 });

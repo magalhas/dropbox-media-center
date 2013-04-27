@@ -62,6 +62,7 @@ define(function (require) {
       this.track = track;
       this.player.setMedia({mp3: track.audioUrl()});
       this.player.play();
+      this.listenToOnce(track, "sync", this.renderTrack);
     },
     /**
      * @listens $.jPlayer.event.loadedmetadata
@@ -92,6 +93,12 @@ define(function (require) {
     render: function () {
       this.$el.html(_.template(html));
       return this.applyJPlayer();
+    },
+    /**
+     * @listens module:models/track~TrackModel#sync
+     */
+    renderTrack: function (track) {
+      this.$(".current-track").html(track.toString());
     },
     /**
      * @listens dom.event#click .trigger.repeat

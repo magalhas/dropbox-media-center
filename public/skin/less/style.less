@@ -9,10 +9,12 @@ body {
   cursor: pointer;
 }
 #audio-player {
+  @controlsWidth: 220px;
   .controls {
     position: fixed;
     top: 0;
     right: 0;
+    width: @controlsWidth;
     .trigger {
       &.repeat, &.shuffle {
         &.active {
@@ -22,6 +24,6 @@ body {
     }
   }
   .playlist {
-    padding-right: 220px;
+    padding-right: @controlsWidth;
   }
 }
