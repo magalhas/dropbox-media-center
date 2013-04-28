@@ -9,9 +9,7 @@ define(function (require) {
    * @class module:views/audio-player/controls~AudioPlayer_ControlsView
    * @extends module:app~App.View
    */
-  var
-    html = require("text!templates/audio-player/controls.html"),
-    TrackModel = require("models/track");
+  var html = require("text!templates/audio-player/controls.html");
   return App.View.extend(
   /** @lends module:views/audio-player/controls~AudioPlayer_ControlsView.prototype */
   {
