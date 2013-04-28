@@ -6,14 +6,14 @@
 define(function (require) {
   "use strict";
   /**
-   * @class module:views/audio-player/playlist~AudioPlayer_ControlsView
+   * @class module:views/audio-player/controls~AudioPlayer_ControlsView
    * @extends module:app~App.View
    */
   var
     html = require("text!templates/audio-player/controls.html"),
     TrackModel = require("models/track");
   return App.View.extend(
-  /** @lends module:views/audio-player/playlist~AudioPlayer_ControlsView.prototype */
+  /** @lends module:views/audio-player/controls~AudioPlayer_ControlsView.prototype */
   {
     events: {
       "click .trigger.previous-track": "previousTrack",
