@@ -70,8 +70,8 @@ PlaylistsRouter.prototype.routeGetPlaylistById = function (req, res) {
  */
 PlaylistsRouter.prototype.routePostPlaylist = function (req, res) {
   var
-    name = req.param("name", ""),
-    tracks = req.param("tracks", []);
+    name = req.param("name"),
+    tracks = req.param("tracks");
   Q
     .ninvoke(PlaylistModel, "create", {name: name, tracks: tracks})
     .then(function (playlist) {
@@ -88,10 +88,13 @@ PlaylistsRouter.prototype.routePostPlaylist = function (req, res) {
 PlaylistsRouter.prototype.routePutPlaylistById = function (req, res) {
   var
     playlistId = req.param("id"),
-    name = req.param("name"),
-    tracks = req.param("tracks");
+    name = req.param("name", ""),
+    tracks = req.param("tracks", []),
+    data = {};
+  name && (data.name = name);
+  tracks && (data.tracks = tracks);
   Q
-    .ninvoke(PlaylistModel, "findByIdAndUpdate", playlistId, {name: name, tracks: tracks})
+    .ninvoke(PlaylistModel, "findByIdAndUpdate", playlistId, data)
     .then(function (playlist) {
       res.send(playlist);
     })
