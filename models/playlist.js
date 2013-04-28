@@ -9,16 +9,13 @@ var db = require("mongoose"),
 PlaylistSchema = new db.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   tracks: [{
     type: db.Schema.Types.ObjectId,
     ref: "Track"
   }]
 });
-db.Playlist.ensureIndex(
-  { name: 1 },
-  { unique: true }
-);
 PlaylistModel = db.model("Playlist", PlaylistSchema);
 exports = module.exports = PlaylistModel;
