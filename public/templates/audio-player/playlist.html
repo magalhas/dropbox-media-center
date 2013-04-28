@@ -11,10 +11,10 @@
     </tr>
   </thead>
   <tbody>
-    <% for (i = 0, length = collection.length;
-        (i < length) && (track = collection.at(i));
-        i += 1) { %>
+  <% for (i = 0, length = collection.length;
+      (i < length) && (track = collection.at(i));
+      i += 1) { %>
     <%=_.template(trackHtml, track)%>
-    <% } %>
+  <% } %>
   </tbody>
 </table>
