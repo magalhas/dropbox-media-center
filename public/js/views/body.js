@@ -32,6 +32,6 @@ define(function (require) {
       this.$("#" + view.$el.attr("id")).remove();
       this.$el.append(view.$el);
       view.delegateEvents();
-    } 
+    }
   });
 });

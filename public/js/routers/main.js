@@ -23,7 +23,6 @@ define(function (require) {
     /** @ignore */
     initialize: function () {
       this.views.body = new BodyView({el: $("body")}).render();
-      Backbone.history.start({pushState: false, root: App.Config.URL.ROOT});
       return App.Router.prototype.initialize.apply(this, arguments);
     },
     /**
@@ -40,8 +39,7 @@ define(function (require) {
         this.views.audioPlayer = new AudioPlayerView();
       }
       this.views.body.setContent(this.views.audioPlayer);
-      this.views.audioPlayer.render();
-      this.views.audioPlayer.collection.fetch();
+      this.views.audioPlayer.render().collection.fetch();
     }
   });
 });
