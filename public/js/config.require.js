@@ -12,6 +12,7 @@ requirejs.config({
     "jquery.jplayer": "libs/vendor/jquery.jplayer-2.3.0/jquery.jplayer.min",
     "jquery.jplayer.circle": "libs/vendor/jquery.jplayer-2.3.0/circle.player",
     "jquery.transform2d": "libs/vendor/jquery.jplayer-2.3.0/jquery.transform2d",
+    "jquery.ui": "libs/vendor/jquery.ui-1.10.2/jquery-ui-1.10.2.custom.min",
     "less": "libs/vendor/less-1.3.3.min",
     "lodash": "libs/vendor/lodash-1.1.1.min",
     "modernizr": "libs/vendor/modernizr-2.6.2",
@@ -37,6 +38,9 @@ requirejs.config({
     "jquery.transform2d": {
       deps: ["jquery"]
     },
+    "jquery.ui": {
+      deps: ["jquery"]
+    },
     "less": {
       exports: "less"
     },
@@ -56,6 +60,7 @@ requirejs.config({
         "jquery",
         "jquery.dataTables",
         "jquery.jplayer.circle",
+        "jquery.ui",
         "modernizr"
       ]
     }
