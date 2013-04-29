@@ -17,6 +17,8 @@ define(function (require) {
   return App.View.extend(
   /** @lends module:views/audio-player~AudioPlayerView.prototype */
   {
+    tagName: "div",
+    id: "audio-player",
     views: {},
     /** @ignore */
     initialize: function () {
@@ -35,10 +37,12 @@ define(function (require) {
      * @returns {this}
      */
     render: function () {
-      this.$el.html(_.template(html));
-      this.views.playlist.setElement(this.$(".playlist"));
-      this.views.controls.setElement(this.$(".controls")).render();
-      return this;
+      this.$el
+        .html(_.template(html))
+        .append(this.views.playlist.$el)
+        .append(this.views.controls.$el);
+      this.views.controls.render();
+      return App.View.prototype.render.apply(this, arguments);
     }
   });
 });

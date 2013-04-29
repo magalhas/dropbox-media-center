@@ -1,0 +1,10 @@
+<h2><%=App.i18n("Playlists")%></h2>
+<ul class="playlists">
+<%
+var i, length, playlist;
+for (i = 0, length = collection.length;
+    (i < length) && (playlist = collection.at(i));
+    i += 1) { %>
+  <li class="playlist" data-id="<%=playlist.get("id")%>"><%=playlist.toString()%></li>
+<% } %>
+</ul>

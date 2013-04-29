@@ -14,7 +14,7 @@
   <% for (i = 0, length = collection.length;
       (i < length) && (track = collection.at(i));
       i += 1) { %>
-    <%=_.template(trackHtml, track)%>
+    <%=_.template(trackHtml, track.attributes)%>
   <% } %>
   </tbody>
 </table>

@@ -53,8 +53,6 @@ define(["require", "i18n!nls/lang", "collection", "config", "model", "router", "
     require(["routers/main"], function (MainRouter) {
       // Instance the main router
       self.router = new MainRouter();
-      // Start the application
-      Backbone.history.start({pushState: false, root: App.Config.URL.ROOT});
     });
     return App;
   };

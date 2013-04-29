@@ -15,6 +15,8 @@ define(function (require) {
   return App.View.extend(
   /** @lends module:views/audio-player/playlist~AudioPlayer_PlaylistView.prototype */
   {
+    className: "playlist",
+    tagName: "div",
     playedTracks: [],
     previousTracks: [],
     shuffledTracksIds: [],
@@ -151,6 +153,7 @@ define(function (require) {
         this.$el.html(_.template(html, this));
         this.applyDataTables();
       }
+      return App.View.prototype.render.apply(this, arguments);
     },
     /**
      * @listens module:app~App#track:playing
@@ -163,7 +166,7 @@ define(function (require) {
           var
             $track = self.$('[data-id="' + track.get("id") + '"]'),
             $trackColumns = $track.find("td"),
-            $updatedTrack = $(_.template(self.trackHtml, track)),
+            $updatedTrack = $(_.template(self.trackHtml, track.attributes)),
             data = [];
           $updatedTrack
             .attr("class", $track.attr("class"))

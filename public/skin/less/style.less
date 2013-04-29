@@ -10,7 +10,7 @@ body {
 }
 #audio-player {
   @controlsWidth: 220px;
-  .controls {
+  > .controls {
     position: fixed;
     top: 0;
     right: 0;
@@ -22,8 +22,15 @@ body {
         }
       }
     }
+    > .wrapper.playlists {
+      > .playlists {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+    }
   }
-  .playlist {
+  > .playlist {
     padding-right: @controlsWidth;
   }
 }

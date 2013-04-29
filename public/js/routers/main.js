@@ -9,24 +9,39 @@ define(function (require) {
    * @class module:routers/main~MainRouter
    * @extends module:app~App.Router
    */
-  var View_Body = require("views/body");
+  var
+    AudioPlayerView = require("views/audio-player"),
+    BodyView = require("views/body");
   return App.Router.extend(
   /** @lends module:routers/main~MainRouter.prototype */
   {
     routes: {
-      "": "bootstrap"
+      "": "bootstrap",
+      "audio": "audio"
     },
     views: {},
     /** @ignore */
     initialize: function () {
-      this.views.body = new View_Body({el: $("body")}).render();
-      this.views.body.views.audioPlayer.collection.fetch();
+      this.views.body = new BodyView({el: $("body")}).render();
+      Backbone.history.start({pushState: false, root: App.Config.URL.ROOT});
       return App.Router.prototype.initialize.apply(this, arguments);
     },
     /**
      * @route
      */
     bootstrap: function () {
+      this.navigate("audio", {trigger: true});
+    },
+    /**
+     * @route
+     */
+    audio: function () {
+      if (!this.views.audioPlayer) {
+        this.views.audioPlayer = new AudioPlayerView();
+      }
+      this.views.body.setContent(this.views.audioPlayer);
+      this.views.audioPlayer.render();
+      this.views.audioPlayer.collection.fetch();
     }
   });
 });
