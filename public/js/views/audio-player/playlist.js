@@ -61,10 +61,12 @@ define(function (require) {
     },
     /**
      * Applies jQueryUI.Draggable to each table row.
+     * @param {jQuery} [$el=this.$(".track")] Element to apply jQueryUI.Draggable.
      * @returns {this}
      */
-    applyDraggable: function () {
-      this.$(".track").draggable({
+    applyDraggable: function ($el) {
+      !$el && ($el = this.$(".track"));
+      $el.draggable({
         cursorAt: {left: 0},
         helper: "clone",
         zIndex: "1000",
@@ -235,6 +237,7 @@ define(function (require) {
             self.table.fnUpdate(data, $track[0], undefined, false);
           } catch (ex) {}
           $track.replaceWith($updatedTrack);
+          self.applyDraggable($updatedTrack);
         }
       });
     },
