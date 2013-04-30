@@ -27,7 +27,7 @@ define(function (require) {
      * @todo Documentation.
      */
     toString: function () {
-      return this.get("name");
+      return this.get("name") + " (" + this.get("tracks").length + ")";
     }
   });
 });

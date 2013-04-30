@@ -11,8 +11,8 @@
     </tr>
   </thead>
   <tbody>
-  <% for (i = 0, length = collection.length;
-      (i < length) && (track = collection.at(i));
+  <% for (i = 0, length = tracks.length;
+      (i < length) && (track = tracks[i]);
       i += 1) { %>
     <%=_.template(trackHtml, track.attributes)%>
   <% } %>

@@ -30,14 +30,16 @@ define(function (require) {
         repeat: false,
         shuffle: false
       });
+      // Bindings
       this
         .listenTo(this.collection, "sync", this.render)
         .listenTo(this.collection, "request", this.renderLoading)
+        .listenTo(App, "media:shuffle", this.toggleShuffle)
+        .listenTo(App, "playlist:open", this.openPlaylist)
         .listenTo(App, "track:previous", this.playPreviousTrack)
         .listenTo(App, "track:next", this.playNextTrack)
         .listenTo(App, "track:play", this.logTrack)
-        .listenTo(App, "track:playing", this.renderTrack)
-        .listenTo(App, "media:shuffle", this.toggleShuffle);
+        .listenTo(App, "track:playing", this.renderTrack);
       return App.View.prototype.initialize.apply(this, arguments);
     },
     /**
@@ -45,14 +47,30 @@ define(function (require) {
      * @returns {this}
      */
     applyDataTables: function () {
-      this.playlist = this.$("table").dataTable({
+      this.table = this.$("table").dataTable({
         "aaSorting": [[1, "asc"], [4, "asc"], [3, "asc"], [0, "asc"]],
+        "bSortClasses": false,
         "bPaginate": false,
         "bLengthChange": false,
         "bFilter": true,
         "bSort": true,
         "bInfo": false,
-        "bAutoWidth": false
+        "bAutoWidth": true
+      });
+      return this;
+    },
+    /**
+     * Applies jQueryUI.Draggable to each table row.
+     * @returns {this}
+     */
+    applyDraggable: function () {
+      this.$(".track").draggable({
+        cursorAt: {left: 0},
+        helper: "clone",
+        zIndex: "1000",
+        start: function (event, ui) {
+          $(ui.helper).find("td:empty").remove();
+        }
       });
       return this;
     },
@@ -61,6 +79,37 @@ define(function (require) {
      */
     logTrack: function (track) {
       this.playedTracks.push(track);
+    },
+    /**
+     * Given a {@link module:models/playlist~PlaylistModel} it creates the
+     * {@link module:views/audio-player/playlist~AudioPlayer_PlaylistView#tracks}
+     * array filled with the {@link module:models/track~TrackModel} from the
+     * {@link module:collections/tracks~TracksCollection}. Then it renders the
+     * playlist.
+     * @listens module:app~App#playlist:open
+     * @fires module:app~App#playlist:opened
+     * @param {module:models/playlist~PlaylistModel} The playlist to open.
+     */
+    openPlaylist: function (playlist) {
+      var i, length, trackIds;
+      this.renderLoading();
+      if (playlist) {
+        this.playlist = playlist;
+        this.tracks = [];
+        trackIds = this.playlist.get("tracks");
+        for (i = 0, length = trackIds.length; i < length; i += 1) {
+          this.tracks.push(this.collection.get(trackIds[i]));
+        }
+      } else {
+        delete this.playlist;
+        delete this.tracks;
+      }
+      _.delay(_.bind(this.render, this), 10);
+      /**
+       * @event module:app~App#playlist:opened
+       * @param {module:models/playlist~PlaylistModel}
+       */
+      _.delay(App.trigger, 10, "playlist:opened", playlist);
     },
     /**
      * @listens module:app~App#track:next
@@ -149,9 +198,15 @@ define(function (require) {
      * @returns {this}
      */
     render: function (collection, response, options) {
+      options = _.defaults(options || {}, {
+        bypass: false
+      });
       if (!options.bypass) {
+        !this.tracks && (this.tracks = this.collection.models);
         this.$el.html(_.template(html, this));
-        this.applyDataTables();
+        this
+          .applyDataTables()
+          .applyDraggable();
       }
       return App.View.prototype.render.apply(this, arguments);
     },
@@ -177,7 +232,7 @@ define(function (require) {
               });
           // FIXME When updating an already updated row an exception was being thrown
           try {
-            self.playlist.fnUpdate(data, $track[0], undefined, false);
+            self.table.fnUpdate(data, $track[0], undefined, false);
           } catch (ex) {}
           $track.replaceWith($updatedTrack);
         }

@@ -19,8 +19,11 @@ define(function (require) {
      * @todo Documentation.
      */
     renderLoading: function (model, xhr, options) {
+      options = _.defaults(options || {}, {
+        bypass: false
+      });
       if (!options.bypass) {
-        this.$el.html("Loading...");
+        this.$el[0].innerHTML = "Loading...";
       }
       return this;
     }

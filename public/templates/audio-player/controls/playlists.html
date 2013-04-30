@@ -1,10 +1,11 @@
 <h2><%=App.i18n("Playlists")%></h2>
 <ul class="playlists">
+  <li class="playlist selected"><%=App.i18n("All")%></li>
 <%
 var i, length, playlist;
 for (i = 0, length = collection.length;
     (i < length) && (playlist = collection.at(i));
     i += 1) { %>
-  <li class="playlist" data-id="<%=playlist.get("id")%>"><%=playlist.toString()%></li>
+  <li class="playlist droppable" data-id="<%=playlist.get("id")%>"><%=playlist.toString()%></li>
 <% } %>
 </ul>

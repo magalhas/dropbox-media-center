@@ -28,10 +28,29 @@ body {
         margin: 0;
         padding: 0;
         list-style: none;
+        > .playlist {
+          cursor: pointer;
+          border: 1px solid transparent;
+          &.selected {
+            font-weight: bold;
+          }
+          &.droppable-hover {
+            background-color: #000;
+            color: #fff;
+          }
+          &.droppable-active {
+            border-color: #000;
+          }
+        }
       }
     }
   }
   > .playlist {
     padding-right: @controlsWidth;
+    .track {
+      .helper {
+        z-index: 10;
+      }
+    }
   }
 }
