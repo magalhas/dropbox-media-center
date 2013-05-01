@@ -39,7 +39,7 @@ TracksRouter.prototype.routeGetTrackById = function (req, res) {
   var trackId = req.param("id");
   // Get the track info from the database
   Q
-    .ninvoke(TrackModel, "findById", trackId)
+    .ninvoke(TrackModel, "findOne", {_id: trackId, user: req.user.username})
     .then(function (track) {
       res.send(track);
     })
@@ -58,7 +58,7 @@ TracksRouter.prototype.routeGetTrackAudioById = function (req, res) {
   res.type("audio/mpeg");
   // Get the track info from the database and then retrieve the track audio
   Q
-    .ninvoke(TrackModel, "findById", trackId)
+    .ninvoke(TrackModel, "findOne", {_id: trackId, user: req.user.username})
     .then(function (track) {
       return dropboxFacade.getTrackAudioPath(app, req.user, track);
     })
