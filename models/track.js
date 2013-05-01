@@ -58,6 +58,11 @@ TrackSchema = new db.Schema({
     type: Number,
     min: 0
   },
+  user: {
+    type: String,
+    required: true,
+    index: true
+  },
   year: {
     type: Number
   }

@@ -12,8 +12,8 @@ var DropboxWatcher = require("../lib/dropbox-watcher"),
  * @param {App} app
  * @todo Documentation.
  */
-function AudioWatcher(app) {
-  DropboxWatcher.call(this, app, {
+function AudioWatcher(app, user) {
+  DropboxWatcher.call(this, app, user, {
     interval: app.options.watchers.interval,
     pattern: /^.+\.mp3$/,
     folders: app.options.watchers.folders.audio
@@ -27,17 +27,19 @@ AudioWatcher.prototype = Object.create(DropboxWatcher.prototype);
 AudioWatcher.prototype.afterWatch = function (callback) {
   var self = this;
   this.app.log("Removing tracks from the database...");
-  TrackModel.remove({timestamp: {$ne: this.timestamp}}, function (err) {
-    callback();
-    if (err) {
-      self.app.error("Error: %j", err);
-      throw new Error("There was an error removing tracks from the database.");
-    } else {
-      self.app
-        .log("Tracks removed from the database.")
-        .log("Watch on audio tracks finished.");
+  TrackModel.remove({timestamp: {$ne: this.timestamp}, user: this.user.username},
+    function (err) {
+      callback();
+      if (err) {
+        self.app.error(err);
+        throw new Error("There was an error removing tracks from the database.");
+      } else {
+        self.app
+          .log("Tracks removed from the database.")
+          .log("Watch on audio tracks finished.");
+      }
     }
-  });
+  );
 };
 /**
  * @overrides
@@ -60,7 +62,8 @@ AudioWatcher.prototype.onMatch = function (entry) {
         filename: entry.name,
         modifiedAt: entry.modifiedAt,
         path: entry.path,
-        timestamp: this.timestamp
+        timestamp: this.timestamp,
+        user: this.user.username
       },
       {upsert: true},
       function (err) {

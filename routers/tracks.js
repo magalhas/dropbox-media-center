@@ -37,9 +37,7 @@ function TracksRouter(app) {
  * @todo Documentation.
  */
 TracksRouter.prototype.routeGetTrackById = function (req, res) {
-  var
-    self = this,
-    trackId = req.param("id");
+  var trackId = req.param("id");
   // Get the track info from the database
   Q
     .ninvoke(TrackModel, "findById", trackId)
@@ -68,7 +66,7 @@ TracksRouter.prototype.routeGetTrackAudioById = function (req, res) {
         path = self.app.cache.path(track.path, track.modifiedAt);
         res.sendfile(path);
       } else {
-        return Q.nfcall(dropboxFacade.getFile, self.app, track)
+        return Q.nfcall(dropboxFacade.getFile, self.app, req.user, track)
           .then(function (resolvedPath) {
             path = resolvedPath;
           })
@@ -102,7 +100,7 @@ TracksRouter.prototype.routeGetTrackAudioById = function (req, res) {
  */
 TracksRouter.prototype.routeGetTracks = function (req, res) {
   Q
-    .ninvoke(TrackModel, "find", {})
+    .ninvoke(TrackModel, "find", {user: req.user.username})
     .then(function (tracks) {
       res.send(tracks);
     })

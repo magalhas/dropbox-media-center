@@ -41,7 +41,7 @@ function PlaylistsRouter(app) {
  */
 PlaylistsRouter.prototype.routeGetPlaylists = function (req, res) {
   Q
-    .ninvoke(PlaylistModel, "find", {})
+    .ninvoke(PlaylistModel, "find", {user: req.user.username})
     .then(function (playlists) {
       res.send(playlists);
     })
@@ -73,7 +73,7 @@ PlaylistsRouter.prototype.routePostPlaylist = function (req, res) {
     name = req.param("name"),
     tracks = req.param("tracks");
   Q
-    .ninvoke(PlaylistModel, "create", {name: name, tracks: tracks})
+    .ninvoke(PlaylistModel, "create", {name: name, tracks: tracks, user: req.user.username})
     .then(function (playlist) {
       res.send(playlist);
     })

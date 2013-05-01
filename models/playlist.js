@@ -15,7 +15,12 @@ PlaylistSchema = new db.Schema({
   tracks: [{
     type: db.Schema.Types.ObjectId,
     ref: "Track"
-  }]
+  }],
+  user: {
+    type: String,
+    required: true,
+    index: true
+  }
 });
 PlaylistModel = db.model("Playlist", PlaylistSchema);
 exports = module.exports = PlaylistModel;

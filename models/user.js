@@ -10,19 +10,17 @@ var
 UserSchema = new db.Schema({
   username: {
     type: String,
-    trim: true
+    trim: true,
+    unique: true
   },
   password: {
-    type: String,
-    trim: true
+    type: String
   },
   token: {
-    type: String,
-    trim: true
+    type: String
   },
   tokenSecret: {
-    type: String,
-    trim: true
+    type: String
   }
 });
 UserModel = db.model("User", UserSchema);
