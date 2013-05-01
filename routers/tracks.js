@@ -8,7 +8,6 @@ var
   _ = require("lodash"),
   dropboxFacade = require("../lib/dropbox-facade"),
   express = require("express"),
-  mediaFacade = require("../lib/media-facade"),
   Q = require("q"),
   TrackModel = require("../models/track");
 /**
@@ -54,42 +53,20 @@ TracksRouter.prototype.routeGetTrackById = function (req, res) {
  */
 TracksRouter.prototype.routeGetTrackAudioById = function (req, res) {
   var
-    self = this,
-    path,
+    app = this.app,
     trackId = req.param("id");
   res.type("audio/mpeg");
-  // Get the track info from the database
+  // Get the track info from the database and then retrieve the track audio
   Q
     .ninvoke(TrackModel, "findById", trackId)
     .then(function (track) {
-      if (self.app.cache.exists(track.path, track.modifiedAt)) {
-        path = self.app.cache.path(track.path, track.modifiedAt);
-        res.sendfile(path);
-      } else {
-        return Q.nfcall(dropboxFacade.getFile, self.app, req.user, track)
-          .then(function (resolvedPath) {
-            path = resolvedPath;
-          })
-          .then(function () {
-            return mediaFacade.getID3(path);
-          })
-          .then(function (id3) {
-            return Q.ninvoke(
-              TrackModel,
-              "update",
-              {_id: track._id},
-              id3,
-              {upsert: true}
-            );
-          })
-          .then(function () {
-            res.sendfile(path);
-          })
-          .done();
-      }
+      return dropboxFacade.getTrackAudioPath(app, req.user, track);
+    })
+    .then(function (path) {
+      res.sendfile(path);
     })
     .fail(function (err) {
-      self.app.error(err);
+      app.error(err);
       res.status(500).send(err);
     })
     .done();
