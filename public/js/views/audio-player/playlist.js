@@ -121,22 +121,34 @@ define(function (require) {
       var
         self = this,
         $next,
+        $allTracks,
         $tracks,
         nextTrack,
         nextTrackId;
+      $allTracks = this.$("[data-id]");
+      // If shuffle is not enabled
       if (!this.options.shuffle) {
         $next = this.$('[data-id="' + track.get("id") + '"]').next();
+        // If it was the last track, gets the first
         if (!$next.length) {
-          $next = this.$("[data-id]").first();
+          $next = $allTracks.first();
         }
         nextTrackId = $next.data("id");
-      } else {
-        $tracks = this.$("[data-id]").filter(function () {
+      }
+      // If shuffle is enabled
+      else {
+        // Filter shuffled tracks from all tracks
+        $tracks = $allTracks.filter(function () {
           if (self.shuffledTracksIds.indexOf($(this).data("id")) !== -1) {
             return false;
           }
           return true;
         });
+        // If all tracks have been played, get all the tracks again and start over
+        if (!$tracks.length) {
+          $tracks = $allTracks;
+          this.shuffledTracksIds = [];
+        );
         $next = $tracks.eq(Math.floor(Math.random() * ($tracks.length + 1)));
         nextTrackId = $next.data("id");
         this.shuffledTracksIds.push(nextTrackId);
