@@ -22,7 +22,7 @@ function AudioWatcher(app, user) {
 AudioWatcher.prototype = Object.create(DropboxWatcher.prototype);
 /**
  * @overrides
- * @todo Documentation.
+ * @todo Documentation. Clear removed tracks from playlists.
  */
 AudioWatcher.prototype.afterWatch = function (callback) {
   var self = this;
