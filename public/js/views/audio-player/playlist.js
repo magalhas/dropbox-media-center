@@ -116,6 +116,7 @@ define(function (require) {
     /**
      * @listens module:app~App#track:next
      * @fires module:app~App#track:play
+     * @todo Play next track based on previous track navigation if possible.
      */
     playNextTrack: function (track) {
       var
@@ -166,20 +167,25 @@ define(function (require) {
     /**
      * @listens module:app~App#track:previous
      * @fires module:app~App#track:play
+     * @todo Shuffle previous tracks when enabled.
      */
     playPreviousTrack: function (track) {
       var
         $previous,
         previousTrack,
         previousTrackId;
+      // If there are no tracks played previously
       if (!this.previousTracks.length) {
         $previous = this.$('[data-id="' + track.get("id") + '"]').prev();
+        // If there's no previous track, play the last track on the list
         if (!$previous.length) {
           $previous = this.$("[data-id]").last();
         }
         previousTrackId = $previous.data("id");
         previousTrack = this.collection.get(previousTrackId);
-      } else {
+      }
+      // If there are tracks that were played previously
+      else {
         previousTrack = this.previousTracks.pop();
       }
       if (previousTrack && (previousTrack !== track || this.options.repeat)) {
@@ -207,7 +213,6 @@ define(function (require) {
       App.trigger("track:play", track);
     },
     /**
-     * Renders the view.
      * @listens external:Backbone.Collection#sync
      * @returns {this}
      */
