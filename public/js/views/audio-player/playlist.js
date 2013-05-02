@@ -148,7 +148,7 @@ define(function (require) {
         if (!$tracks.length) {
           $tracks = $allTracks;
           this.shuffledTracksIds = [];
-        );
+        }
         $next = $tracks.eq(Math.floor(Math.random() * ($tracks.length + 1)));
         nextTrackId = $next.data("id");
         this.shuffledTracksIds.push(nextTrackId);
